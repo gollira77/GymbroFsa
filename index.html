@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GYMBRO FSA | Fitness Digitalizado</title>
+  <meta name="description" content="El primer Smart Gym de Formosa. Entrena mejor con nuestra tecnología exclusiva.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS v3.4 (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              DEFAULT: '#D4AF37', // Oro metálico
+              light: '#F3E5AB',
+              dark: '#AA8C2C',
+            },
+            dark: {
+              950: '#020202',
+              900: '#050505',
+              800: '#0a0a0a',
+              700: '#121212',
+              600: '#1c1c1c'
+            },
+            tech: {
+              accent: '#3b82f6', // Azul sutil para toques tecnológicos
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Oswald', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          backgroundImage: {
+            // Imagen hero estable: Cuerdas de batalla / Gym oscuro
+            'hero-pattern': "linear-gradient(to bottom, rgba(2,2,2,0.5), rgba(2,2,2,1)), url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80')",
+            'app-pattern': "linear-gradient(135deg, #0a0a0a 0%, #1c1c1c 100%)",
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Utilities */
+    .text-gradient {
+      background: linear-gradient(to right, #D4AF37, #F3E5AB, #D4AF37);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 4s linear infinite;
+    }
+
+    .glass-card {
+      background: rgba(28, 28, 28, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+
+<body class="bg-dark-950 text-gray-200 font-sans antialiased selection:bg-gold selection:text-black">
+
+  <!-- NAV OVERLAY (Mobile) -->
+  <div id="mobile-menu" class="fixed inset-0 z-[60] bg-black/95 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-8 text-2xl font-display uppercase tracking-widest">
+    <button id="close-menu" class="absolute top-6 right-6 text-gold hover:text-white">
+      <i data-lucide="x" class="w-10 h-10"></i>
+    </button>
+    <a href="#home" class="hover:text-gold transition mobile-link">Inicio</a>
+    <a href="#app" class="hover:text-gold transition mobile-link text-gold">La App</a>
+    <a href="#trainers" class="hover:text-gold transition mobile-link">Staff</a>
+    <a href="#pricing" class="hover:text-gold transition mobile-link">Planes</a>
+    <a href="#contact" class="hover:text-gold transition mobile-link">Contacto</a>
+  </div>
+
+  <!-- NAVBAR -->
+  <header id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent py-4">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2 group">
+        <div class="bg-gold p-1.5 rounded text-black group-hover:rotate-12 transition-transform">
+          <i data-lucide="dumbbell" class="w-6 h-6"></i>
+        </div>
+        <span class="font-display font-bold text-2xl tracking-wider text-white">GYMBRO<span class="text-gold">FSA</span></span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 text-sm uppercase tracking-wider font-medium text-gray-400">
+        <a href="#app" class="text-white hover:text-gold transition-colors flex items-center gap-1"><i data-lucide="smartphone" class="w-4 h-4"></i> App</a>
+        <a href="#trainers" class="hover:text-gold transition-colors">Staff</a>
+        <a href="#gallery" class="hover:text-gold transition-colors">Espacios</a>
+        <a href="#pricing" class="hover:text-gold transition-colors">Planes</a>
+        <a href="#contact" class="px-6 py-2 border border-gold/50 text-gold rounded hover:bg-gold hover:text-black transition-all duration-300">
+          Solicitar Demo
+        </a>
+      </nav>
+
+      <!-- Mobile Toggle -->
+      <button id="open-menu" class="md:hidden text-white hover:text-gold transition">
+        <i data-lucide="menu" class="w-8 h-8"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-dark-950"></div>
+    
+    <div class="relative z-10 max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center pt-20">
+      
+      <!-- Text Content -->
+      <div class="text-center md:text-left">
+        <div class="inline-flex items-center gap-2 py-1 px-3 border border-gold/30 rounded-full bg-black/50 backdrop-blur-md text-gold text-xs font-bold tracking-[0.2em] uppercase mb-6 animate-fade-in-up">
+          <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+          GymBro Ecosystem V1.0
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-display font-bold uppercase leading-tight mb-6 drop-shadow-2xl">
+          Entrena con <br>
+          <span class="text-gradient">Inteligencia</span>
+        </h1>
+        
+        <p class="text-gray-300 text-lg md:text-xl max-w-xl mx-auto md:mx-0 mb-10 font-light">
+          Deja el papel y el Excel. Únete al único gimnasio que integra una plataforma "Todo en Uno" para medir tu progreso, conectar con tu coach y romper tus PRs.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center">
+          <a href="#pricing" class="w-full sm:w-auto bg-gold text-black font-display font-bold text-lg px-8 py-4 rounded hover:bg-white transition-colors duration-300 flex items-center justify-center gap-2 group shadow-[0_0_20px_rgba(212,175,55,0.3)]">
+            Ver Membresías
+            <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          <a href="#app" class="w-full sm:w-auto px-8 py-4 rounded border border-white/20 hover:bg-white/5 backdrop-blur-sm text-white transition-colors font-display tracking-wide flex items-center gap-2">
+            <i data-lucide="play-circle" class="w-5 h-5"></i>
+            Conocer la App
+          </a>
+        </div>
+      </div>
+
+      <!-- Hero App Visual -->
+      <div class="hidden md:block relative animate-float">
+        <div class="absolute inset-0 bg-gold/20 blur-[100px] rounded-full"></div>
+        <div class="relative z-10 bg-dark-800 border border-white/10 rounded-2xl p-6 shadow-2xl transform rotate-y-12 rotate-x-12 perspective-1000">
+          <!-- Abstract UI Mockup -->
+          <div class="flex justify-between items-center mb-6 border-b border-white/5 pb-4">
+            <div class="flex items-center gap-3">
+               <div class="w-10 h-10 rounded-full bg-gray-700 overflow-hidden">
+                 <!-- Imagen Avatar Genérica -->
+                 <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-full h-full object-cover">
+               </div>
+               <div>
+                 <p class="text-xs text-gray-400">Bienvenido, Atleta</p>
+                 <p class="font-bold text-white">Juan Pérez</p>
+               </div>
+            </div>
+            <div class="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded border border-green-500/30">Activo</div>
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-dark-700 p-4 rounded border border-white/5">
+              <p class="text-xs text-gray-400 mb-1">Peso Muerto (PR)</p>
+              <p class="text-2xl font-bold text-gold">180 kg <span class="text-xs text-green-400">↑ 5%</span></p>
+            </div>
+             <div class="bg-dark-700 p-4 rounded border border-white/5">
+              <p class="text-xs text-gray-400 mb-1">Racha Semanal</p>
+              <p class="text-2xl font-bold text-white">4 Días <span class="text-xs text-gray-500">🔥</span></p>
+            </div>
+          </div>
+          <div class="bg-dark-700 p-4 rounded border border-white/5 h-32 relative flex items-end justify-between px-2 gap-1">
+            <div class="w-full bg-gray-600/30 h-[40%] rounded-t hover:bg-gold transition-colors"></div>
+            <div class="w-full bg-gray-600/30 h-[60%] rounded-t hover:bg-gold transition-colors"></div>
+            <div class="w-full bg-gray-600/30 h-[50%] rounded-t hover:bg-gold transition-colors"></div>
+            <div class="w-full bg-gray-600/30 h-[80%] rounded-t hover:bg-gold transition-colors"></div>
+            <div class="w-full bg-gold h-[90%] rounded-t shadow-[0_0_10px_rgba(212,175,55,0.5)]"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP SHOWCASE -->
+  <section id="app" class="py-24 bg-dark-950 relative overflow-hidden">
+    <!-- Background Gradients -->
+    <div class="absolute top-1/4 left-0 w-[500px] h-[500px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-gold/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-16 text-center">
+        <h2 class="text-gold font-display text-xl tracking-widest uppercase mb-2">Nuestro Producto Estrella</h2>
+        <h3 class="text-4xl md:text-5xl font-bold text-white leading-tight">Tu Gym. Tu App. <br> <span class="text-white">Tu Progreso.</span></h3>
+      </div>
+
+      <!-- Feature 1: El Cliente (Imagen Genérica: Persona con celular en gym) -->
+      <div class="grid md:grid-cols-2 gap-16 items-center mb-24">
+        <div class="order-2 md:order-1 space-y-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-dark-800 p-2 rounded border border-white/10">
+              <i data-lucide="user" class="text-gold w-6 h-6"></i>
+            </div>
+            <span class="text-gray-400 uppercase tracking-widest font-bold text-sm">Para el Atleta</span>
+          </div>
+          
+          <h4 class="text-3xl font-bold text-white">Rutinas Interactivas & Gamificación</h4>
+          <p class="text-gray-400 text-lg">
+            No adivines qué hacer. Dale play a tu rutina, sigue los videos explicativos y registra tus cargas en tiempo real.
+          </p>
+          <ul class="space-y-4 mt-4">
+            <li class="flex items-start gap-3">
+              <i data-lucide="check-circle-2" class="text-green-500 w-6 h-6 shrink-0"></i>
+              <div>
+                <strong class="text-white block">Feedback en Tiempo Real (RPE)</strong>
+                <span class="text-sm text-gray-500">Califica la intensidad al terminar.</span>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <i data-lucide="trending-up" class="text-blue-500 w-6 h-6 shrink-0"></i>
+              <div>
+                <strong class="text-white block">Gráficos de Evolución</strong>
+                <span class="text-sm text-gray-500">Visualiza como suben tus PRs mes a mes.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="order-1 md:order-2 flex justify-center relative">
+           <!-- Imagen: Persona mirando celular en el gym -->
+           <div class="relative w-72 aspect-[9/16] rounded-[2rem] overflow-hidden border-[8px] border-dark-700 shadow-2xl shadow-gold/20 transform rotate-[-3deg] hover:rotate-0 transition duration-500 group">
+             <img src="https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=687&q=80" 
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+             <div class="absolute bottom-6 left-6 right-6">
+               <div class="bg-white/10 backdrop-blur-md p-3 rounded-lg border border-white/20">
+                 <div class="flex items-center gap-2 mb-1">
+                   <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                   <span class="text-xs text-white font-bold">Rutina Activa</span>
+                 </div>
+                 <div class="h-1.5 w-full bg-white/20 rounded-full overflow-hidden">
+                   <div class="h-full bg-gold w-3/4"></div>
+                 </div>
+               </div>
+             </div>
+           </div>
+        </div>
+      </div>
+
+      <!-- Feature 2: El Entrenador (Imagen Genérica: Entrenador con tecnología/gestión) -->
+      <div class="grid md:grid-cols-2 gap-16 items-center">
+        <div class="flex justify-center relative">
+           <!-- Imagen: Entrenador anotando/usando tablet -->
+           <div class="w-full max-w-md aspect-[4/3] rounded-xl border border-white/10 overflow-hidden shadow-2xl relative group">
+             <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 transform group-hover:scale-105">
+             <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
+             <div class="absolute bottom-0 left-0 p-6">
+                <div class="bg-black/70 backdrop-blur-sm p-3 rounded border-l-4 border-gold">
+                  <p class="text-white font-bold text-sm">Gestión Inteligente</p>
+                  <p class="text-xs text-gray-400">Seguimiento en tiempo real</p>
+                </div>
+             </div>
+           </div>
+        </div>
+
+        <div class="space-y-8">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-dark-800 p-2 rounded border border-white/10">
+              <i data-lucide="brain-circuit" class="text-gold w-6 h-6"></i>
+            </div>
+            <span class="text-gray-400 uppercase tracking-widest font-bold text-sm">Para el Entrenador</span>
+          </div>
+          
+          <h4 class="text-3xl font-bold text-white">Gestión Profesional de Alumnos</h4>
+          <p class="text-gray-400 text-lg">
+            Nuestros entrenadores usan tablets y GymBro para monitorear tu rendimiento. Olvídate de esperar a que te armen la rutina en papel mientras el entrenador está ocupado.
+          </p>
+
+          <ul class="space-y-4 mt-4">
+            <li class="flex items-center gap-3 text-gray-300">
+              <i data-lucide="library" class="text-gold w-5 h-5"></i>
+              Biblioteca de ejercicios categorizada con videos HD.
+            </li>
+             <li class="flex items-center gap-3 text-gray-300">
+              <i data-lucide="send" class="text-gold w-5 h-5"></i>
+              Asignación inmediata de rutinas a tu celular.
+            </li>
+             <li class="flex items-center gap-3 text-gray-300">
+              <i data-lucide="eye" class="text-gold w-5 h-5"></i>
+              Monitoreo de cumplimiento y asistencia.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAFF SECTION -->
+  <section id="trainers" class="py-24 bg-dark-900 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+        <div>
+          <h2 class="text-gold font-display text-xl tracking-widest uppercase mb-2">El Equipo</h2>
+          <h3 class="text-4xl font-bold text-white">Expertos en Rendimiento</h3>
+        </div>
+        <a href="#contact" class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+          Entrenar con ellos <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Trainer 1 (Genérico) -->
+        <div class="group relative rounded-xl overflow-hidden bg-dark-800 border border-white/5">
+          <div class="aspect-[3/4] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500 group-hover:scale-105">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 p-6 w-full">
+            <h4 class="text-2xl font-display font-bold text-white">Diego Cruz</h4>
+            <p class="text-gold text-sm font-medium uppercase tracking-wider mb-2">Hipertrofia & Fuerza</p>
+            <p class="text-gray-400 text-xs line-clamp-2 mb-3">Especialista en biomecánica aplicada al culturismo natural.</p>
+          </div>
+        </div>
+
+        <!-- Trainer 2 (Genérico) -->
+        <div class="group relative rounded-xl overflow-hidden bg-dark-800 border border-white/5">
+          <div class="aspect-[3/4] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611672585731-fa1060a7a3c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500 group-hover:scale-105">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 p-6 w-full">
+            <h4 class="text-2xl font-display font-bold text-white">Franco Villalba</h4>
+            <p class="text-gold text-sm font-medium uppercase tracking-wider mb-2">CrossFit & Funcional</p>
+            <p class="text-gray-400 text-xs line-clamp-2 mb-3">Coach certificado L2, enfocado en movilidad y potencia.</p>
+          </div>
+        </div>
+
+        <!-- Trainer 3 (Genérico) -->
+        <div class="group relative rounded-xl overflow-hidden bg-dark-800 border border-white/5">
+          <div class="aspect-[3/4] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500 group-hover:scale-105">
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-90"></div>
+          <div class="absolute bottom-0 p-6 w-full">
+            <h4 class="text-2xl font-display font-bold text-white">Ezequiel Ruiz Diaz</h4>
+            <p class="text-gold text-sm font-medium uppercase tracking-wider mb-2">Preparación Física</p>
+            <p class="text-gray-400 text-xs line-clamp-2 mb-3">Alto rendimiento deportivo para atletas de competencia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section id="gallery" class="py-24 bg-dark-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-center text-3xl md:text-4xl font-bold text-white mb-12">Espacios <span class="text-gold">Premium</span></h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+        <!-- Large item (Interior Gym Principal) -->
+        <div class="col-span-2 row-span-2 overflow-hidden rounded-xl border border-white/10 relative group">
+          <img src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+          <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition"></div>
+        </div>
+
+        <!-- Small items (Detalles y máquinas) -->
+        <div class="overflow-hidden rounded-xl border border-white/10 relative group">
+          <img src="https://images.unsplash.com/photo-1517963879466-eeb5db69e156?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-white/10 relative group">
+          <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-white/10 relative group">
+          <img src="https://images.unsplash.com/photo-1632781297772-1d3f5a468c67?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-white/10 relative group">
+          <img src="https://images.unsplash.com/photo-1570829460005-c840387bb1ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-24 bg-dark-900 relative">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-display font-bold text-white mb-4">Planes de Membresía</h2>
+        <p class="text-gray-400">Inversión clara. Sin costos ocultos.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 items-center">
+        <!-- Plan Básico -->
+        <div class="bg-dark-700 border border-white/5 p-8 rounded-xl hover:border-white/20 transition flex flex-col h-full opacity-80 hover:opacity-100">
+          <h3 class="text-xl font-bold text-white mb-2">Básico</h3>
+          <p class="text-gray-400 text-sm mb-6">Acceso Libre</p>
+          <div class="text-3xl font-display font-bold text-white mb-6">$18.000 <span class="text-sm text-gray-500 font-sans font-normal">/mes</span></div>
+          <ul class="space-y-4 mb-8 flex-1 text-gray-300 text-sm">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Acceso al gimnasio</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Uso de vestuarios</li>
+            <li class="flex items-center gap-2"><i data-lucide="minus" class="text-gray-600 w-4 h-4"></i> Sin App</li>
+          </ul>
+          <button class="w-full py-3 border border-white/20 text-white rounded hover:bg-white hover:text-black transition font-bold uppercase text-sm">Seleccionar</button>
+        </div>
+
+        <!-- Plan Estándar -->
+        <div class="bg-dark-700 border border-white/5 p-8 rounded-xl hover:border-white/20 transition flex flex-col h-full relative">
+          <h3 class="text-xl font-bold text-white mb-2">Estándar</h3>
+          <p class="text-gray-400 text-sm mb-6">Entrenamiento Guiado</p>
+          <div class="text-3xl font-display font-bold text-white mb-6">$22.000 <span class="text-sm text-gray-500 font-sans font-normal">/mes</span></div>
+          <ul class="space-y-4 mb-8 flex-1 text-gray-300 text-sm">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Acceso al gimnasio</li>
+            <li class="flex items-center gap-2"><i data-lucide="smartphone" class="text-blue-400 w-4 h-4"></i> <strong>Acceso a App GymBro</strong></li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Rutinas Pre-armadas</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> Videos explicativos</li>
+          </ul>
+          <button class="w-full py-3 border border-white/20 text-white rounded hover:bg-white hover:text-black transition font-bold uppercase text-sm">Seleccionar</button>
+        </div>
+
+        <!-- Plan Premium (Destacado) -->
+        <div class="bg-gradient-to-b from-dark-600 to-dark-800 border-2 border-gold p-8 rounded-xl shadow-2xl shadow-gold/20 flex flex-col h-full transform md:scale-105 relative">
+          <div class="absolute top-0 right-0 bg-gold text-black text-xs font-bold px-3 py-1 rounded-bl-lg uppercase">Recomendado</div>
+          <h3 class="text-xl font-bold text-white mb-2">Premium</h3>
+          <p class="text-gold text-sm mb-6">La Experiencia Completa</p>
+          <div class="text-4xl font-display font-bold text-white mb-6">$28.000 <span class="text-sm text-gray-500 font-sans font-normal">/mes</span></div>
+          <ul class="space-y-4 mb-8 flex-1 text-gray-300 text-sm">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="text-gold w-4 h-4"></i> <strong>Acceso Total</strong></li>
+            <li class="flex items-center gap-2"><i data-lucide="user-check" class="text-gold w-4 h-4"></i> <strong>Entrenador Asignado</strong></li>
+            <li class="flex items-center gap-2"><i data-lucide="smartphone" class="text-gold w-4 h-4"></i> App Full + Seguimiento</li>
+            <li class="flex items-center gap-2"><i data-lucide="message-circle" class="text-gold w-4 h-4"></i> Feedback Personalizado</li>
+            <li class="flex items-center gap-2"><i data-lucide="bar-chart-2" class="text-gold w-4 h-4"></i> Análisis de Progreso (PRs)</li>
+          </ul>
+          <button class="w-full py-3 bg-gold text-black rounded hover:bg-white transition font-bold uppercase text-sm shadow-lg shadow-gold/20">Empezar Ahora</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gold text-black text-center px-6">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-4xl font-display font-bold mb-6 uppercase">¿Listo para subir de nivel?</h2>
+      <p class="text-xl mb-8 font-medium">No entrenes a ciegas. Entrena con datos, plan y objetivos claros.</p>
+      <a href="#pricing" class="inline-block bg-black text-white px-10 py-4 rounded font-bold text-lg hover:bg-gray-800 transition shadow-xl">
+        Quiero mi Plan Premium
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 bg-dark-950 border-t border-white/5">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-white mb-8">Contáctanos</h2>
+      <p class="text-gray-400 mb-8">¿Tienes dudas? Envíanos un mensaje.</p>
+      <form class="max-w-md mx-auto space-y-4 text-left">
+        <input type="text" placeholder="Nombre" class="w-full bg-dark-800 border border-white/10 rounded p-3 text-white focus:border-gold focus:outline-none">
+        <input type="email" placeholder="Email" class="w-full bg-dark-800 border border-white/10 rounded p-3 text-white focus:border-gold focus:outline-none">
+        <textarea placeholder="Mensaje" rows="4" class="w-full bg-dark-800 border border-white/10 rounded p-3 text-white focus:border-gold focus:outline-none"></textarea>
+        <button class="w-full bg-gold text-black font-bold py-3 rounded hover:bg-white transition">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-black py-12 border-t border-white/10 text-sm">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8 mb-8">
+      <div class="col-span-1 md:col-span-2">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="dumbbell" class="text-gold w-5 h-5"></i>
+          <span class="font-display font-bold text-lg tracking-wider text-white">GYMBRO<span class="text-gold">FSA</span></span>
+        </div>
+        <p class="text-gray-500 max-w-xs">
+          Combinamos hierro y código para forjar los mejores atletas de Formosa.
+        </p>
+      </div>
+      
+      <div>
+        <h4 class="text-white font-bold mb-4">Ubicación</h4>
+        <p class="text-gray-500">Av. 25 de Mayo 1234<br>Formosa, Argentina</p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4">Tecnología</h4>
+        <ul class="space-y-2 text-gray-600 font-mono text-xs">
+          <li class="flex items-center gap-2"><i data-lucide="code-2" class="w-3 h-3"></i> Powered by React + Vite</li>
+          <li class="flex items-center gap-2"><i data-lucide="shield" class="w-3 h-3"></i> Pagos vía Mercado Pago</li>
+          <li class="flex items-center gap-2"><i data-lucide="database" class="w-3 h-3"></i> Real-time Data</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-6 border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-gray-600">
+      <p>&copy; 2025 GymBroFsa. Todos los derechos reservados.</p>
+      <div class="flex gap-4 mt-4 md:mt-0">
+        <a href="#" class="hover:text-gold"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+        <a href="#" class="hover:text-gold"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script>
+    // Init Icons
+    lucide.createIcons();
+
+    // Mobile Menu Logic
+    const btnOpen = document.getElementById('open-menu');
+    const btnClose = document.getElementById('close-menu');
+    const menu = document.getElementById('mobile-menu');
+    const links = document.querySelectorAll('.mobile-link');
+
+    function toggleMenu() {
+      menu.classList.toggle('translate-x-full');
+    }
+
+    btnOpen.addEventListener('click', toggleMenu);
+    btnClose.addEventListener('click', toggleMenu);
+    links.forEach(link => link.addEventListener('click', toggleMenu));
+
+    // Navbar Scroll Effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('bg-black/90', 'backdrop-blur-md', 'border-white/10', 'shadow-lg', 'py-2');
+        navbar.classList.remove('border-transparent', 'py-4');
+      } else {
+        navbar.classList.remove('bg-black/90', 'backdrop-blur-md', 'border-white/10', 'shadow-lg', 'py-2');
+        navbar.classList.add('border-transparent', 'py-4');
+      }
+    });
+  </script>
+</body>
+</html>
